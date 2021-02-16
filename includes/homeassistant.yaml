@@ -1,0 +1,11 @@
+####################################################
+#                                                  #
+#                 Homeassistant                    #
+#                                                  #
+####################################################
+
+latitude: !secret latitude_house
+longitude: !secret longitude_house
+elevation: 0
+unit_system: metric
+time_zone : Europe/Amsterdam

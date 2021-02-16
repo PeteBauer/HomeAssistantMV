@@ -1,0 +1,10 @@
+####################################################
+#                                                  #
+#                    Logging                       #
+#                                                  #
+####################################################
+
+default: warning
+logs:
+  homeassistant.core: warning
+  homeassistant.component.deconz: warning

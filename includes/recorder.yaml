@@ -1,0 +1,25 @@
+####################################################
+#                                                  #
+#                     Recorder                     #
+#                                                  #
+####################################################
+
+db_url: !secret recorder_db_url
+purge_interval: 1
+purge_keep_days: 14
+exclude:
+  entities:
+    - sensor.power_consumption
+    - sensor.power_consumption_phase_l1
+    - sensor.power_consumption_phase_l2
+    - sensor.power_consumption_phase_l3
+    - sensor.energy_consumption_tarif_1
+    - sensor.energy_consumption_tarif_2
+    - sensor.energy_production_tarif_1
+    - sensor.energy_production_tarif_2
+    - sensor.power_production_phase_l1
+    - sensor.power_production_phase_l2
+    - sensor.power_production_phase_l3
+    - sensor.gas_consumption
+    - sensor.hourly_gas_consumption
+    - sensor.power_tariff

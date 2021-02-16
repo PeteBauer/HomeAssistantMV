@@ -1,0 +1,51 @@
+####################################################
+#                                                  #
+#                  Notifications                   #
+#                                                  #
+####################################################
+
+####################################################
+# Notification options Maikel                      #
+####################################################
+
+- name: WhatsAppMaikel
+  platform: rest
+  resource: https://api.callmebot.com/whatsapp.php
+  data:
+    source: HA
+    phone: !secret wa-phonenumber-mv
+    apikey: !secret wa-apikey-mv
+
+####################################################
+# Notification options Rieneke                     #
+####################################################
+
+- name: WhatsAppRieneke
+  platform: rest
+  resource: https://api.callmebot.com/whatsapp.php
+  data:
+    source: HA
+    phone: !secret wa-phonenumber-rv
+    apikey: !secret wa-apikey-rv
+
+####################################################
+# Notification groups                              #
+####################################################
+
+- name: Housekeeping
+  platform: group
+  services:
+    - service: mobile_app_iphone_van_rieneke
+    - service: mobile_app_iphone_van_maikel
+
+- name: Parental_warnings
+  platform: group
+  services:
+    - service: mobile_app_iphone_van_rieneke
+    - service: mobile_app_iphone_van_maikel
+    - service: whatsapprieneke
+
+- name: System monitoring
+  platform: group
+  services:
+    - service: whatsappmaikel

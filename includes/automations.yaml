@@ -1,0 +1,460 @@
+########################################################################################################
+#                                                                                                      #
+#                                               Automations                                            #
+#                                                                                                      #
+########################################################################################################
+
+########################################################################################################
+#                                                 Doorbell                                             #
+########################################################################################################
+
+- alias: "Doorbell: When pressed"
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.voordeur_ding
+    to: 'on'
+  action:
+  - service: media_player.play_media
+    data:
+      media_content_id: !secret ring
+      media_content_type: audio/mp3
+    entity_id: media_player.woonkamer
+    
+- alias: "Doorbell: When motion detected"
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.voordeur_motion
+    to: 'on'
+  action:
+  - service: media_player.play_media
+    data:
+      media_content_id: !secret motion
+      media_content_type: audio/mp3
+    entity_id: media_player.woonkamer
+
+########################################################################################################
+#                                                 Lights                                               #
+########################################################################################################
+
+#Livingroom:
+- alias: "Lights: Turn on livingroom 1 hour before sunset"
+  trigger:
+  - event: sunset
+    offset: '-01:00:00'
+    platform: sun
+  action:
+  - entity_id: group.livingroom_lights
+    service: homeassistant.turn_on
+
+- alias: "Lights: Turn on livingroom 1 hour before sunrise"
+  trigger:
+  - event: sunrise
+    offset: '-01:00:00'
+    platform: sun
+  action:
+  - entity_id: group.livingroom_lights
+    service: homeassistant.turn_on
+
+- alias: "Lights: Turn off livingroom at night."
+  trigger:
+  - platform: time
+    at: "23:30:00"
+  action:
+  - entity_id: group.livingroom_lights
+    service: homeassistant.turn_off
+    
+- alias: "Lights: Turn off livingroom 1h30 after sunrise"
+  trigger:
+  - event: sunrise
+    offset: '+01:30:00'
+    platform: sun
+  action:
+  - entity_id: group.livingroom_lights
+    service: homeassistant.turn_off
+
+- alias: "Lights: Turn on livingroom closet after motion"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.sensortrapkast
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.lightkamerkast
+
+- alias: "Lights: Turn off livingroom closet after 10 second of no motion"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.sensortrapkast
+    to: 'off'
+    for:
+      seconds: 10
+  action:
+    service: light.turn_off
+    entity_id: light.lightkamerkast
+
+# Front yard:
+- alias: "Lights: Turn on lights in frontyard after sunset and motion detected"
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.sensorbuitencarport
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.sensorbuitenschuur
+    to: 'on'
+  condition:
+    condition: sun
+    after: sunset
+    after_offset: '-00:30:00'
+  action:
+    service: light.turn_on
+    entity_id: group.frontyard_security_lights
+
+- alias: "Lights: Turn off lights in frontyard after 1 minutes and without motion detected."
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.sensorbuitencarport
+    to: 'off'
+    for:
+      minutes: 1
+  - platform: state
+    entity_id: binary_sensor.sensorbuitencarport
+    to: 'off'
+    for:
+      minutes: 1
+  action:
+    service: light.turn_off
+    entity_id: group.frontyard_security_lights
+
+- alias: "Lights: Turn on seasonal lights 5 minutes before sunset"
+  trigger:
+  - event: sunset
+    offset: '-00:05:00'
+    platform: sun
+  action:
+  - entity_id: group.frontyard_seasonal_lights
+    service: switch.turn_on
+
+- alias: "Lights: Turn off seasonal lights at 23h30"
+  trigger:
+  - platform: time
+    at: "23:30:00"
+  action:
+  - entity_id: group.frontyard_seasonal_lights
+    service: switch.turn_off
+
+- alias: "Lights: Turn on seasonal lights 45 minutes before sunrise"
+  trigger:
+  - event: sunrise
+    offset: '-00:45:00'
+    platform: sun
+  action:
+  - entity_id: group.frontyard_seasonal_lights
+    service: switch.turn_on
+    
+- alias: "Lights: Turn off seasonal lights 30 minutes after sunrise"
+  trigger:
+  - event: sunrise
+    offset: '+01:00:00'
+    platform: sun
+  action:
+  - entity_id: group.frontyard_seasonal_lights
+    service: switch.turn_off
+
+########################################################################################################
+#                                             Window covering                                          #
+########################################################################################################
+
+# Bedroom Hannah
+- alias: "Window cover: Open windowcover bedroom Hannah (Morning)"
+  trigger:
+    platform: time
+    at: "08:30:00"
+  action:
+    - service: cover.open_cover
+      data:
+        entity_id: cover.coverhannah
+
+- alias: "Window cover: Open windowcover bedroom Hannah (Evening)"
+  trigger:
+    platform: time
+    at: "16:30:00"
+  action:
+    - service: cover.open_cover
+      data:
+        entity_id: cover.coverhannah
+
+# Bedroom Rhodé
+- alias: "Window cover: Open windowcover bedroom Rhodé (Morning)"
+  trigger:
+    platform: time
+    at: "08:30:00"
+  action:
+    - service: cover.close_cover
+      data:
+        entity_id: cover.coverrhode
+
+- alias: "Window cover: Open windowcover bedroom Rhodé (Evening)"
+  trigger:
+    platform: time
+    at: "16:30:00"
+  action:
+    - service: cover.close_cover
+      data:
+        entity_id: cover.coverrhode
+
+########################################################################################################
+#                                                   Switches                                           #
+########################################################################################################
+
+# Office:
+- alias: "Switch: Toggle office lights"
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switchkantoorwest
+      event: 1002
+  action:
+    service: light.toggle
+    data:
+      entity_id: group.office_lights
+
+- alias: 'Switch: Increase brightness office lights'
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switchkantoorwest
+      event: 2002
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: group.office_lights
+        brightness: >
+          {% set bri = state_attr('light.lamp', 'brightness') | int %}
+          {{ [bri+120, 249] | min }}
+
+#Put the door and light notification of Hannah behind a switch. 
+- platform: template
+  switches:
+    switchdeursensorhannah:
+      value_template: "{{ is_state('automation.notificatie_deur_hannah', 'on') }}"
+      turn_on:
+        service: automation.turn_on
+        entity_id: automation.notificatie_deur_hannah
+      turn_off:
+        service: automation.turn_off
+        entity_id: automation.notificatie_deur_hannah
+
+#Put the door notification of Rhodé behind a switch. 
+- platform: template
+  switches:
+    switchdeursensorrhode:
+      value_template: "{{ is_state('automation.notificatie_deur_rhode', 'on') }}"
+      turn_on:
+        service: automation.turn_on
+        entity_id: automation.notificatie_deur_rhode
+      turn_off:
+        service: automation.turn_off
+        entity_id: automation.notificatie_deur_rhode
+
+#Put the doorbell  behind a switch. 
+- platform: template
+  switches:
+    switchdoorbellmotion:
+      value_template: "{{ is_state('automation.play_file_after_detecting_motion_in_front_yard', 'on') }}"
+      turn_on:
+        service: automation.turn_on
+        entity_id: automation.play_file_after_detecting_motion_in_front_yard
+      turn_off:
+        service: automation.turn_off
+        entity_id: automation.play_file_after_detecting_motion_in_front_yard
+    switchdoorbelldingdong:
+      value_template: "{{ is_state('automation.play_file_after_someone_pushed_the_front_door_bell', 'on') }}"
+      turn_on:
+        service: automation.turn_on
+        entity_id: automation.play_file_after_someone_pushed_the_front_door_bell
+      turn_off:
+        service: automation.turn_off
+        entity_id: automation.play_file_after_someone_pushed_the_front_door_bell
+
+
+########################################################################################################
+#                                                 Notifications                                        #
+########################################################################################################
+
+# ACV Garbage
+- alias: "Notification: Kliko reminder"
+  trigger:
+    - platform: time
+      at: "08:15:00"
+  condition:
+    condition: template
+    value_template: "{{ not is_state('sensor.afval_vandaag', 'Geen') }}"
+  action:
+    - service: notify.housekeeping
+      data_template:
+        title: 'Kliko aan de weg zetten'
+        message: "Vandaag moet de {{ states('sensor.afval_vandaag') }} container aan de weg."
+
+# Washing machine finished
+- alias: "Notification: Washing machine finished"
+  trigger:
+    - platform: state
+      entity_id:
+      - input_select.state_washingmachine
+      from: 'Wassen'
+      to: 'Inactief'
+      for: '00:10:00'
+  action:
+    - service: notify.housekeeping
+      data_template:
+        title: 'Wasmachine'
+        message: "Klaar met het programma."
+
+# Hannah
+- alias: "Notification: Hannah bedroom lighting switched on"
+  trigger:
+    - platform: state
+      entity_id:
+        - light.lighthannah
+      to: 'on'
+  action:
+    - service: notify.parental_warnings
+      data_template:
+        title: 'Slaapkamer Hannah'
+        message: "De verlichting is ingeschakeld."
+
+- alias: "Notification: Hannah bedroom door opened"
+  trigger:
+    platform: state
+    entity_id: 
+      - binary_sensor.securitydeurhannah
+    to: 'on'
+  condition: []
+  action:
+    - service: notify.parental_warnings
+      data_template:
+        title: 'Slaapkamer Hannah'
+        message: "De deur is open gedaan."
+
+# Rhodé
+- alias: "Notification: Rhodé bedroom lighting switched on"
+  trigger:
+    - platform: state
+      entity_id:
+        - light.lightrhode
+      to: 'on'
+  action:
+    - service: notify.parental_warnings
+      data_template:
+        title: 'Slaapkamer Rhodé'
+        message: "De verlichting is ingeschakeld."
+
+- alias: "Notification: Rhodé bedroom door opened"
+  trigger:
+    platform: state
+    entity_id: 
+      - binary_sensor.securitydeurrhode
+    to: 'on'
+  condition: []
+  action:
+    - service: notify.parental_warnings
+      data_template:
+        title: 'Slaapkamer Rhodé'
+        message: "De deur is open gedaan."
+
+########################################################################################################
+#                                                 Washing Machine                                      #
+########################################################################################################
+
+- id: washingmachine_switchedoff
+  alias: "Washing Machine: Change State Switched Off"
+  trigger:
+    - platform: state
+      entity_id: switch.wasmachine
+      to: 'off'
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.state_washingmachine
+        option: 'Uitgeschakeld'
+
+- id: washingmachine_powereddown
+  alias: "Washing Machine: Change State Powered Down"
+  trigger:
+    - platform: state
+      entity_id: switch.wasmachine
+      to: 'on'
+    - platform: numeric_state
+      entity_id: sensor.washingmachine_watts
+      below: 1
+      for: '00:01:00'
+  condition:
+  - condition: state
+    entity_id: switch.wasmachine
+    state: 'on'
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.state_washingmachine
+        option: 'Uit'
+
+- id: washingmachine_wash
+  alias: "Washing Machine: Change State Wash"
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.washingmachine_watts
+      above: 4
+      for: '00:01:00'
+  condition:
+    - condition: state
+      entity_id: switch.wasmachine
+      state: 'on'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_select.state_washingmachine
+        state: 'Uit'
+      - condition: state
+        entity_id: input_select.state_washingmachine
+        state: 'Inactief'
+      - condition: state
+        entity_id: input_select.state_washingmachine
+        state: 'Wassen'
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.state_washingmachine
+        option: 'Wassen'
+
+- id: washingmachine_inactive
+  alias: "Washing Machine: Change State Wash"
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.washingmachine_watts
+      above: 1
+      below: 4
+      for: '00:01:00'
+  condition:
+    - condition: state
+      entity_id: switch.wasmachine
+      state: 'on'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_select.state_washingmachine
+        state: 'Uit'
+      - condition: state
+        entity_id: input_select.state_washingmachine
+        state: 'Inactief'
+      - condition: state
+        entity_id: input_select.state_washingmachine
+        state: 'Wassen'
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.state_washingmachine
+        option: 'Inactief'
+

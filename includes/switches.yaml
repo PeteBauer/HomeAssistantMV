@@ -1,0 +1,53 @@
+####################################################
+#                                                  #
+#                     Switches                     #
+#                                                  #
+####################################################
+
+####################################################
+#                  Automation switches             #
+####################################################
+
+#Put the door and light notification of Hannah behind a switch. 
+ - platform: template
+   switches:
+     switchdeursensorhannah:
+       value_template: "{{ is_state('automation.notification_hannah_bedroom_door_opened', 'on') }}"
+       turn_on:
+         service: automation.turn_on
+         entity_id: automation.notification_hannah_bedroom_door_opened
+       turn_off:
+         service: automation.turn_off
+         entity_id: automation.notification_hannah_bedroom_door_opened
+
+#Put the door notification of Rhodé behind a switch. 
+ - platform: template
+   switches:
+     switchdeursensorrhode:
+       value_template: "{{ is_state('automation.notificatie_deur_rhode', 'on') }}"
+       turn_on:
+         service: automation.turn_on
+         entity_id: automation.notification_rhode_bedroom_door_opened
+       turn_off:
+         service: automation.turn_off
+         entity_id: automation.notification_rhode_bedroom_door_opened
+
+#Put the doorbell behind a switch. (motion and press)
+ - platform: template
+   switches:
+     switchdoorbellmotion:
+       value_template: "{{ is_state('automation.play_file_after_detecting_motion_in_front_yard', 'on') }}"
+       turn_on:
+         service: automation.turn_on
+         entity_id: automation.play_file_after_detecting_motion_in_front_yard
+       turn_off:
+         service: automation.turn_off
+         entity_id: automation.play_file_after_detecting_motion_in_front_yard
+     switchdoorbelldingdong:
+       value_template: "{{ is_state('automation.play_file_after_someone_pushed_the_front_door_bell', 'on') }}"
+       turn_on:
+         service: automation.turn_on
+         entity_id: automation.play_file_after_someone_pushed_the_front_door_bell
+       turn_off:
+         service: automation.turn_off
+         entity_id: automation.play_file_after_someone_pushed_the_front_door_bell

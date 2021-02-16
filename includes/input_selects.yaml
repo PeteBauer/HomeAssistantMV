@@ -1,0 +1,18 @@
+####################################################
+#                                                  #
+#                     Input Selects                #
+#                                                  #
+####################################################
+
+####################################################
+#                 Washing Machine                  #
+####################################################
+
+state_washingmachine:
+  name: Washing Machine state
+  icon: mdi:tumble-dryer
+  options:
+    - Uitgeschakeld
+    - Uit
+    - Inactief
+    - Wassen

@@ -1,0 +1,65 @@
+####################################################
+#                                                  #
+#                  Utility meters                  #
+#                                                  #
+####################################################
+
+####################################################
+#                       Gas                        #
+####################################################
+
+dailygasconsumption:
+  source: sensor.gas_consumption
+  cycle: daily
+weeklygasconsumption:
+  source: sensor.gas_consumption
+  cycle: weekly
+monthlygasconsumption:
+  source: sensor.gas_consumption
+  cycle: monthly
+
+####################################################
+#                   Electricity                    #
+####################################################
+
+# Accumulated consumption
+dailypowerconsumption:
+  source: sensor.power_consumption
+  cycle: daily
+weeklypowerconsumption:
+  source: sensor.power_consumption
+  cycle: weekly
+monthlypowerconsumption:
+  source: sensor.power_consumption
+  cycle: monthly
+yearlypowerconsumption:
+  source: sensor.power_consumption
+  cycle: yearly
+
+# Consumption low tarif
+dailypowerconsumptiont1:
+  source: sensor.energy_consumption_tarif_1
+  cycle: daily
+weeklypowerconsumptiont1:
+  source: sensor.energy_consumption_tarif_1
+  cycle: weekly
+monthlypowerconsumptiont1:
+  source: sensor.energy_consumption_tarif_1
+  cycle: monthly
+yearlypowerconsumptiont1:
+  source: sensor.energy_consumption_tarif_1
+  cycle: yearly
+
+# Consumption high tarif
+dailypowerconsumptiont2:
+  source: sensor.energy_consumption_tarif_2
+  cycle: daily
+weeklypowerconsumptiont2:
+  source: sensor.energy_consumption_tarif_2
+  cycle: weekly
+monthlypowerconsumptiont2:
+  source: sensor.energy_consumption_tarif_2
+  cycle: monthly
+yearlypowerconsumptiont2:
+  source: sensor.energy_consumption_tarif_2
+  cycle: yearly

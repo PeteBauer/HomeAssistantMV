@@ -1,0 +1,53 @@
+########################################################################################################
+#                                                                                                      #
+#                                               Binary Sensors                                         #
+#                                                                                                      #
+########################################################################################################
+
+########################################################################################################
+#                                               Washing Machine                                        #
+########################################################################################################
+
+- platform: template
+  sensors:
+    washmaschine_status:
+      friendly_name: "Status"
+      delay_off:
+        minutes: 4
+      value_template: "{{ states.sensor.wasmachine.state | float > 3 }}"
+
+########################################################################################################
+#                                              Network monitoring                                      #
+########################################################################################################
+
+- platform: ping
+  host: 172.16.10.1
+  name: TP-Link Archer C7 v2
+
+- platform: ping
+  host: 8.8.8.8
+  name: Internet
+  
+- platform: ping
+  host: 172.16.10.10
+  name: Synology DS218
+  
+- platform: ping
+  host: 172.16.10.2
+  name: EnGenius EAP1750H
+  
+- platform: ping
+  host: 172.16.10.102
+  name: Laptop van Maikel
+  
+- platform: ping
+  host: 172.16.10.100
+  name: Laptop van Rieneke
+  
+- platform: ping
+  host: 172.16.11.31
+  name: HP LaserJet Pro MFP M377dw
+  
+- platform: ping
+  host: 172.16.10.12
+  name: SurveillanceStation

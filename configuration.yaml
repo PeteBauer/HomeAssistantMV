@@ -1,0 +1,34 @@
+# =============================================================================
+#                  M a i n  C o n f i g u r a t i o n
+# =============================================================================
+
+# Core Configuration
+homeassistant: !include includes/homeassistant.yaml
+default_config:
+http: !include includes/http.yaml
+frontend: !include includes/frontend.yaml
+
+# Logging and history
+recorder: !include includes/recorder.yaml
+logger: !include includes/logger.yaml
+
+# Inputs
+input_select: !include includes/input_selects.yaml
+
+# Miscellaneous
+discovery: !include includes/discovery.yaml
+utility_meter: !include includes/utilitymeters.yaml
+tts: !include includes/tts.yaml
+automation: !include includes/automations.yaml
+binary_sensor: !include includes/binarysensors.yaml
+alarm_control_panel: !include includes/alarm.yaml
+sensor: !include includes/sensors.yaml
+zone: !include includes/zones.yaml
+notify: !include includes/notifyers.yaml
+group: !include includes/groups.yaml
+switch: !include includes/switches.yaml
+#scenes: !include includes/scenes.yaml
+#scripts: !include includes/scripts.yaml
+homekit: !include includes/homekit.yaml
+media_player: !include includes/mediaplayers.yaml
+climate: !include includes/climate.yaml

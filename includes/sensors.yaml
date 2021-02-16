@@ -1,0 +1,128 @@
+####################################################
+#                                                  #
+#                     Sensors                      #
+#                                                  #
+####################################################
+
+####################################################
+# ACV Garbage Sensor                               #
+####################################################
+
+- platform: acv
+  postcode: !secret postalcode
+  housenumber: !secret housenumber
+  resources:
+    - today
+    - tomorrow
+    - grey
+    - green
+    - paper
+    - packages
+    - textile
+
+####################################################
+# Kaifa M105c Smart meter                          #
+####################################################
+
+- platform: dsmr
+  port: /dev/ttyUSB0
+  dsmr_version: 5
+
+####################################################
+# Moon phase                                       #
+####################################################
+
+- platform: moon
+
+####################################################
+# Washing machine                                  #
+####################################################
+
+- platform: template
+  sensors:
+    washingmachine_amps:
+      friendly_name_template: "{{ states.switch.wasmachine.name}} Current"
+      value_template: '{{ states.switch.wasmachine.attributes["current_a"] | float }}'
+      unit_of_measurement: 'A'
+    washingmachine_watts:
+      friendly_name_template: "{{ states.switch.wasmachine.name}} Current Consumption"
+      value_template: '{{ states.switch.wasmachine.attributes["current_power_w"] | float }}'
+      unit_of_measurement: 'W'
+    washingmachine_total_kwh:
+      friendly_name_template: "{{ states.switch.wasmachine.name}} Total Consumption"
+      value_template: '{{ states.switch.wasmachine.attributes["total_energy_kwh"] | float }}'
+      unit_of_measurement: 'kWh'
+    washingmachine_volts:
+      friendly_name_template: "{{ states.switch.wasmachine.name}} Voltage"
+      value_template: '{{ states.switch.wasmachine.attributes["voltage"] | float }}'
+      unit_of_measurement: 'V'
+    washingmachine_today_kwh:
+      friendly_name_template: "{{ states.switch.wasmachine.name}} Today's Consumption"
+      value_template: '{{ states.switch.wasmachine.attributes["today_energy_kwh"] | float }}'
+      unit_of_measurement: 'kWh'
+
+####################################################
+# Nest Thermostat (BadNEST)                        #
+####################################################
+
+- platform: badnest
+  issue_token: !secret token
+  cookie: !secret cookie
+  region: eu
+
+# Database monitoring
+- platform: sql
+  db_url: !secret recorder_db_url
+  queries:
+    - name: db_size
+      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024, 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+      column: 'value'
+      unit_of_measurement: MB
+
+####################################################
+# Filters                                          #
+####################################################
+
+# Filters on power consumption in order to reduce the number of records in the database.
+- platform: filter
+  name: "ActualPowerUsage"
+  entity_id: sensor.power_consumption
+  filters:
+    - filter: throttle
+      window_size: 20
+
+- platform: filter
+  name: "ActualPowerUsageL1"
+  entity_id: sensor.power_consumption_phase_l1
+  filters:
+    - filter: throttle
+      window_size: 20
+
+- platform: filter
+  name: "ActualPowerUsageL2"
+  entity_id: sensor.power_consumption_phase_l2
+  filters:
+    - filter: throttle
+      window_size: 20
+       
+- platform: filter
+  name: "ActualPowerUsageL3"
+  entity_id: sensor.power_consumption_phase_l3
+  filters:
+    - filter: throttle
+      window_size: 20
+
+# Filters on gas consumption in order to reduce the number of records in the database.
+- platform: filter
+  name: "TotalGasUsage"
+  entity_id: sensor.gas_consumption
+  filters:
+    - filter: throttle
+      window_size: 20
+        
+- platform: filter
+  name: "HourlyGasUsage"
+  entity_id: sensor.hourly_gas_consumption
+  filters:
+    - filter: throttle
+      window_size: 20

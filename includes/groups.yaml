@@ -1,0 +1,185 @@
+####################################################
+#                                                  #
+#                      Groups                      #
+#                                                  #
+####################################################
+
+####################################################
+# Livingroom                                       #
+####################################################
+
+livingroom_lights:
+  name: Verlichting woonkamer
+  icon: mdi:lightbulb
+  entities:
+    - switch.staande_lamp
+    - switch.lightwandlamp
+
+livingroom_media:
+  name: Multimedia woonkamer
+  entities:
+    - media_player.bose_soundtouch
+    - media_player.woonkamer
+
+livingroom_security:
+  name: Beveiliging woonkamer
+  icon: mdi:security
+  entities:
+    - binary_sensor.securitybackdoor
+    - binary_sensor.securityraamwoonkamer
+
+####################################################
+# Kitchen                                          #
+####################################################
+
+kitchen_security:
+  name: Beveiliging keuken
+  entities:
+    - binary_sensor.securitykitchenwindow
+
+####################################################
+# Landing 1st floor                                #
+####################################################
+
+landing_1st_floor_lights:
+  name: Verlichting overloop eerste verdieping
+  icon: mdi:lightbulb
+  entities:
+    - light.overloop
+
+####################################################
+# Bedroom Maikel & Rieneke                         #
+####################################################
+
+bedroom_mr_lights:
+  name: Verlichting slaapkamer Maikel en Rieneke
+  icon: mdi:lightbulb
+  entities:
+    - light.lightmaikelrieneke
+    - light.lightmaikel
+    - light.lightrieneke
+
+bedroom_mr_security:
+  name: Beveiliging slaapkamer Maikel en Rieneke
+  icon: mdi:security
+  entities:
+    - binary_sensor.securityraamrechtsslaapkamermr
+
+####################################################
+# Bedroom Hannah                                   #
+####################################################
+
+bedroom_hannah_lights:
+  name: Verlichting slaapkamer Hannah
+  icon: mdi:lightbulb
+  entities:
+    - light.slaapkamerhannah
+
+bedroom_hannah_security:
+  name: Beveiliging slaapkamer Hannah
+  icon: mdi:security
+  entities:
+    - binary_sensor.securitydeurhannah
+
+####################################################
+# Bedroom Rhodé                                    #
+####################################################
+
+bedroom_rhode_lights:
+  name: Verlichting slaapkamer Rhodé
+  icon: mdi:lightbulb
+  entities:
+    - light.lightrhode
+
+bedroom_rhode_security:
+  name: Beveiliging slaapkamer Rhodé
+  icon: mdi:security
+  entities:
+    - binary_sensor.securitydeurrhode
+
+####################################################
+# Landing 2nd floor - Attic                        #
+####################################################
+
+landing_2nd_floor_lights:
+  name: Verlichting overloop tweede verdieping
+  icon: mdi:lightbulb
+  entities:
+    - light.zoldertrap
+
+landing_2nd_floor_household_appliances:
+  name: Witgoed tweede verdieping
+  icon: mdi:tumble-dryer
+  entities:
+    - switch.wasmachine
+
+####################################################
+# Office                                           #
+####################################################
+
+office_lights:
+  name: Verlichting kantoor
+  icon: mdi:lightbulb
+  entities:
+    - light.lightkantooroost
+    - light.lightkantoorwest
+
+office_climate:
+  name: Klimaatbeheersing kantoor
+  icon: mdi:home-climate
+  entities:
+    - switch.verwarming_zolder
+    - switch.airco_zolder
+
+####################################################
+# Front yard                                       #
+####################################################
+
+frontyard_lights:
+  name: Buitenverlichting voortuin
+  icon: mdi:lightbulb
+  entities:
+    - light.lightbuitenlampvoor1
+    - light.lightbuitenlampvoor2
+    - switch.lightstaandelamp
+
+frontyard_security_lights:
+  name: Schrikverlichting voortuin
+  icon: mdi:lightbulb
+  entities:
+    - light.lightbuitenlampvoor1
+    - light.lightbuitenlampvoor2
+
+frontyard_seasonal_lights:
+  name: Seizoensverlichting voortuin
+  icon: mdi:string-lights
+  entities:
+    - switch.lightstaandelamp
+
+frontyard_security:
+  name: Beveiliging voortuin
+  icon: mdi:security
+  entities:
+    - binary_sensor.sensorbuitencarport
+    - binary_sensor.sensorbuitenschuur
+
+####################################################
+# Shack                                            #
+####################################################
+
+shack_security:
+  name: Beveiliging schuur
+  icon: mdi:security
+  entities:
+    - binary_sensor.securitybarndoor
+
+####################################################
+# Observatory                                      #
+####################################################
+
+observatory_security:
+  name: Beveiliging sterrenwacht
+  icon: mdi:security
+  entities:
+    - binary_sensor.securitysterrenwacht
+    - binary_sensor.motionsterrenwacht
