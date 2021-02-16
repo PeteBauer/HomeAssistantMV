@@ -2,7 +2,6 @@
 .cloud
 .storage
 .google.token
-custom_components
 image
 tts
 
@@ -11,6 +10,5 @@ ip_bans.yaml
 secrets.yaml
 known_devices.yaml
 .shopping_list.json
-.HA_VERSION
 home-assistant.log
 zones.yaml
