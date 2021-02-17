@@ -4,3 +4,9 @@
 #                                                  #
 ####################################################
 
+- name: "Testscene - Blauw"
+  entities:
+    light.lightrhode:
+      state: on
+      brightness: 63
+      rgb_color: [10, 10, 253]

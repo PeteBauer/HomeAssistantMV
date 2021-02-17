@@ -27,7 +27,7 @@ zone: !include includes/zones.yaml
 notify: !include includes/notifyers.yaml
 group: !include includes/groups.yaml
 switch: !include includes/switches.yaml
-#scenes: !include includes/scenes.yaml
+scene: !include includes/scenes.yaml
 #scripts: !include includes/scripts.yaml
 homekit: !include includes/homekit.yaml
 media_player: !include includes/mediaplayers.yaml
