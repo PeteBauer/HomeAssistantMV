@@ -8,5 +8,12 @@
   entities:
     light.lightrhode:
       state: on
-      brightness: 63
+      brightness: 75
       rgb_color: [10, 10, 253]
+
+- name: "Testscene - Warm White"
+  entities:
+    light.lightrhode:
+      state: on
+      brightness: 75
+      rgb_color: [253, 244, 220]
