@@ -51,3 +51,4 @@
        turn_off:
          service: automation.turn_off
          entity_id: automation.doorbell_when_pressed
+         
