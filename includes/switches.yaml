@@ -32,22 +32,22 @@
          service: automation.turn_off
          entity_id: automation.notification_rhode_bedroom_door_opened
 
-#Put the doorbell behind a switch. (motion and press)
+#Put the doorbell behind a switch. (motion and press) 
  - platform: template
    switches:
      switchdoorbellmotion:
-       value_template: "{{ is_state('automation.play_file_after_detecting_motion_in_front_yard', 'on') }}"
+       value_template: "{{ is_state('automation.doorbell_when_motion_detected', 'on') }}"
        turn_on:
          service: automation.turn_on
-         entity_id: automation.play_file_after_detecting_motion_in_front_yard
+         entity_id: automation.doorbell_when_motion_detected
        turn_off:
          service: automation.turn_off
-         entity_id: automation.play_file_after_detecting_motion_in_front_yard
+         entity_id: automation.doorbell_when_motion_detected
      switchdoorbelldingdong:
-       value_template: "{{ is_state('automation.play_file_after_someone_pushed_the_front_door_bell', 'on') }}"
+       value_template: "{{ is_state('automation.doorbell_when_pressed', 'on') }}"
        turn_on:
          service: automation.turn_on
-         entity_id: automation.play_file_after_someone_pushed_the_front_door_bell
+         entity_id: automation.doorbell_when_pressed
        turn_off:
          service: automation.turn_off
-         entity_id: automation.play_file_after_someone_pushed_the_front_door_bell
+         entity_id: automation.doorbell_when_pressed
