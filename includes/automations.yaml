@@ -206,6 +206,57 @@
 #                                                   Switches                                           #
 ########################################################################################################
 
+# Bedroom Maikel & Rieneke:
+- alias: "Switch: Toggle bedside lamp Maikel"
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switchmaikel
+      event: 1002
+  action:
+    service: light.toggle
+    data:
+      entity_id: light.lightmaikel
+
+- alias: "Switch: Toggle bedside lamp Rieneke"
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switchrieneke
+      event: 1002
+  action:
+    service: light.toggle
+    data:
+      entity_id: light.lightrieneke
+
+# Bedroom Rhodé:
+- alias: "Switch: Toggle lights bedroom Rhodé"
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switchrhode
+      event: 1002
+  action:
+    service: light.toggle
+    data:
+      entity_id: light.lighthannah
+
+# Bedroom Hannah:
+- alias: "Switch: Toggle lights bedroom Hannah"
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: switchhannah
+      event: 1002
+  action:
+    service: light.toggle
+    data:
+      entity_id: light.lighthannah
+
 # Office:
 - alias: "Switch: Toggle office lights"
   trigger:
